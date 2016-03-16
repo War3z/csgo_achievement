@@ -1,0 +1,258 @@
+<!doctype html>
+<html class="no-js" lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Achievement Generator</title>
+		<link rel="stylesheet" href="css/bootstrap.min.css" />
+		<link rel="stylesheet" href="css/bootstrap-theme.min.css" />
+		<script src="js/jquery-2.2.1.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<script>
+			function makeCRCTable()
+			{
+				var c;
+				var crcTable = [];
+				for(var n =0; n < 256; n++){
+					c = n;
+					for(var k =0; k < 8; k++){
+						c = ((c&1) ? (0xEDB88320 ^ (c >>> 1)) : (c >>> 1));
+					}
+					crcTable[n] = c;
+				}
+				return crcTable;
+			}
+			
+			function crc32(str) 
+			{
+				var crcTable = window.crcTable || (window.crcTable = makeCRCTable());
+				var crc = 0 ^ (-1);
+
+				for (var i = 0; i < str.length; i++ ) {
+					crc = (crc >>> 8) ^ crcTable[(crc ^ str.charCodeAt(i)) & 0xFF];
+				}
+
+				return (crc ^ (-1)) >>> 0;
+			}
+
+			function generate()
+			{
+				var powmap = crc32( document.getElementById("map").value.toLowerCase() ) & 0xFFFF;
+
+				document.getElementById('simplecommand').innerHTML = "achievement_earned " + ( document.getElementById("achievement").value ^ powmap ) + " " + ( ( document.getElementById("id").value ^ document.getElementById("achievement").value ) ^ powmap );
+			}
+
+		</script>
+	</head>
+	<body>
+		<div class="container">
+			<br/>
+			<legend>CS:GO Achievement Generator</legend>
+			
+			<div class="col-lg-4">
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<div class="form-group">
+							<label class="control-label" for="inputLarge">Map name:</label>
+							<input id="map" placeholder="de_dust2" class="form-control input-lg" type="text" id="inputLarge">
+						</div>
+						<div class="form-group">
+							<label class="control-label" for="inputLarge">ID:</label>
+							<input id="id" placeholder="5" class="form-control input-lg" type="text" id="inputLarge">
+						</div>
+						<div class="form-group">
+							<label class="control-label" for="inputLarge">Achievement:</label>
+							<select id="achievement" class="form-control" id="select">
+								<option value="1001">Someone Set Up Us The Bomb</option>
+								<option value="1002">Rite of First Defusal</option>
+								<option value="1004">Second to None</option>
+								<option value="1005">Counter-Counter-Terrorist</option>
+								<option value="1006">Short Fuse</option>
+								<option value="1007">Participation Award</option>
+								<option value="1008">Clusterstruck</option>
+								<option value="1009">Wild Gooseman Chase</option>
+								<option value="1010">Blast Will and Testament</option>
+								<option value="1011">Defusus Interruptus</option>
+								<option value="1012">Boomala Boomala</option>
+								<option value="1013">The Hurt Blocker</option>
+								<option value="1014">Shorter Fuse</option>
+								<option value="1015">Quick Cut</option>
+								<option value="2001">Good Shepherd</option>
+								<option value="2002">Dead Shepherd</option>
+								<option value="2003">Freed With Speed</option>
+								<option value="2004">Cowboy Diplomacy</option>
+								<option value="2005">SAR Czar</option>
+								<option value="3001">Body Bagger</option>
+								<option value="3002">Corpseman</option>
+								<option value="3003">God of War</option>
+								<option value="3005">Shot With Their Pants Down</option>
+								<option value="3006">Ballistic</option>
+								<option value="3007">Variety Hour</option>
+								<option value="3008">Battle Sight Zero</option>
+								<option value="3009">Avenging Angel</option>
+								<option value="3010">Shrapnelproof</option>
+								<option value="3011">Repeat Offender</option>
+								<option value="3012">Decimator</option>
+								<option value="3013">Insurgent</option>
+								<option value="3014">Can't Keep a Good Man Down</option>
+								<option value="3015">Overkill</option>
+								<option value="3016">Command and Control</option>
+								<option value="3017">Ten Angry Men</option>
+								<option value="3018">Excessive Brutality</option>
+								<option value="3019">Hat Trick</option>
+								<option value="3020">Blind Ambition</option>
+								<option value="3021">Blind Fury</option>
+								<option value="3022">Spray and Pray</option>
+								<option value="3023">Friendly Firearms</option>
+								<option value="3024">Expert Marksman</option>
+								<option value="3025">Make the Cut</option>
+								<option value="3026">The Bleeding Edge</option>
+								<option value="3027">Defuse This!</option>
+								<option value="3028">Eye to Eye</option>
+								<option value="3029">Sknifed</option>
+								<option value="3030">Hip Shot</option>
+								<option value="3031">Snipe Hunter</option>
+								<option value="3032">Dead Man Stalking</option>
+								<option value="3033">Street Fighter</option>
+								<option value="3034">Akimbo King</option>
+								<option value="3035">Three the Hard Way</option>
+								<option value="3036">Death From Above</option>
+								<option value="3037">Bunny Hunt</option>
+								<option value="3038">Aerial Necrobatics</option>
+								<option value="3039">Lost and F0wnd</option>
+								<option value="3040">Ammo Conservation</option>
+								<option value="3044">Denied!</option>
+								<option value="3046">Knife on Knife</option>
+								<option value="3047">Level Playing Field</option>
+								<option value="3048">One Shot One Kill</option>
+								<option value="3049">Base Scamper</option>
+								<option value="3050">Born Ready</option>
+								<option value="4001">Desert Eagle Expert</option>
+								<option value="4003">Glock-18 Expert</option>
+								<option value="4005">Dual Berettas Expert</option>
+								<option value="4006">Five-SeveN Expert</option>
+								<option value="4007">PP-Bizon Expert</option>
+								<option value="4008">Tec-9 Expert</option>
+								<option value="4009">Zeus x27 Expert</option>
+								<option value="4010">P2000/USP Tactical Expert</option>
+								<option value="4011">P250 Expert</option>
+								<option value="4012">AWP Expert</option>
+								<option value="4013">AK-47 Expert</option>
+								<option value="4014">M4 AR Expert</option>
+								<option value="4015">AUG Expert</option>
+								<option value="4019">Galil AR Expert</option>
+								<option value="4020">FAMAS Expert</option>
+								<option value="4022">G3SG1 Expert</option>
+								<option value="4024">SCAR-20 Expert</option>
+								<option value="4025">SG553 Expert</option>
+								<option value="4026">SSG 08 Expert</option>
+								<option value="4027">P90 Expert</option>
+								<option value="4030">MAC-10 Expert</option>
+								<option value="4031">UMP-45 Expert</option>
+								<option value="4032">MP7 Expert</option>
+								<option value="4033">MP9 Expert</option>
+								<option value="4035">XM1014 Expert</option>
+								<option value="4036">MAG-7 Expert</option>
+								<option value="4037">Sawed-Off Expert</option>
+								<option value="4038">Nova Expert</option>
+								<option value="4039">M249 Expert</option>
+								<option value="4040">Negev Expert</option>
+								<option value="4041">Knife Expert</option>
+								<option value="4042">HE Grenade Expert</option>
+								<option value="4043">Flame Expert</option>
+								<option value="4044">Pistol Master</option>
+								<option value="4045">Rifle Master</option>
+								<option value="4046">Sub-Machine Gun Master</option>
+								<option value="4047">Shotgun Master</option>
+								<option value="4048">Master At Arms</option>
+								<option value="5001">Newb World Order</option>
+								<option value="5002">Pro-moted</option>
+								<option value="5003">Leet-er of Men</option>
+								<option value="5004">Gungamer</option>
+								<option value="5005">Keep on Gunning</option>
+								<option value="5006">Kill of the Century</option>
+								<option value="5007">The Professional</option>
+								<option value="5008">Cold Pizza Eater</option>
+								<option value="5009">Practice Practice Practice</option>
+								<option value="5010">Gun Collector</option>
+								<option value="5011">King of the Kill</option>
+								<option value="5012">War Bonds</option>
+								<option value="5013">Spoils of War</option>
+								<option value="5014">Blood Money</option>
+								<option value="5015">Points in Your Favor</option>
+								<option value="5016">You've Made Your Points</option>
+								<option value="5017">A Million Points of Blight</option>
+								<option value="5018">Premature Burial</option>
+								<option value="5019">The Cleaner</option>
+								<option value="5020">War of Attrition</option>
+								<option value="5021">Magic Bullet</option>
+								<option value="5022">Kill One, Get One Spree</option>
+								<option value="5023">Primer</option>
+								<option value="5024">Finishing Schooled</option>
+								<option value="5025">Target-Hardened</option>
+								<option value="5026">Mercy Rule</option>
+								<option value="5027">Clean Sweep</option>
+								<option value="5029">A World of Pane</option>
+								<option value="5031">The Unstoppable Force</option>
+								<option value="5032">The Immovable Object</option>
+								<option value="5033">Head Shred Redemption</option>
+								<option value="5034">Piece Initiative</option>
+								<option value="5035">Give Piece a Chance</option>
+								<option value="5036">Piece Treaty</option>
+								<option value="5037">Blitzkrieg</option>
+								<option value="5039">Black Bag Operation</option>
+								<option value="5040">Cold War</option>
+								<option value="5041">Killanthropist</option>
+								<option value="5042">The Frugal Beret</option>
+								<option value="5044">The Road to Hell</option>
+								<option value="6004">Italy Map Veteran</option>
+								<option value="6006">Office Map Veteran</option>
+								<option value="6007">Aztec Map Veteran</option>
+								<option value="6010">Dust Map Veteran</option>
+								<option value="6011">Dust2 Map Veteran</option>
+								<option value="6012">Inferno Map Veteran</option>
+								<option value="6013">Nuke Map Veteran</option>
+								<option value="6018">Train Map Veteran</option>
+								<option value="6019">Shorttrain Map Veteran</option>
+								<option value="6020">Vacation</option>
+								<option value="6021">My House</option>
+								<option value="6022">Run of the Mill</option>
+								<option value="6023">Marcsman</option>
+								<option value="6024">Bank On It</option>
+								<option value="6030">Shoots Vet</option>
+								<option value="6031">Baggage Claimer</option>
+								<option value="6032">Marksman</option>
+								<option value="6033">Tourist</option>
+								<option value="6034">Rampage!</option>
+								<option value="6035">FIRST!</option>
+								<option value="6036">First Things First</option>
+								<option value="6037">Target Secured</option>
+								<option value="6038">Conservationist</option>
+								<option value="6039">Still Alive</option>
+								<option value="6040">Awardist</option>
+							</select>
+						</div>
+						<div class="form-group form-gorup-no-margin">
+							<button onclick="generate();" type="submit" class="btn btn-warning">Generate</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-8">
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<label class="control-label">Simple command:</label>
+						<pre id="simplecommand"> </pre>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+	<footer>
+		<div class="container">
+			<p>Made by <a href="http://steamcommunity.com/id/war3z/">Warez</a>. 
+			<p>Credits: <a href="http://www.unknowncheats.me/forum/members/1242190.html">@FuckFace32</a> for the information on achievements. 
+		</div>
+	</footer>
+</html>
