@@ -1,1 +1,1 @@
-# csgo_achievement
+# CS:GO Achievement Generator
